@@ -29,16 +29,20 @@ export default function About() {
                         </h2>
                     </motion.div>
 
-                    {/* Image Placeholder - Strictly Centered */}
+                    {/* Profile Image - Strictly Centered & Premium */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={isInView ? { opacity: 1, scale: 1 } : {}}
                         transition={{ duration: 1 }}
-                        className="relative w-40 h-40 md:w-56 md:h-56 group"
+                        className="relative w-48 h-48 md:w-64 md:h-64 group"
                     >
-                        <div className="absolute inset-0 bg-accent/15 rounded-[2.5rem] blur-3xl group-hover:bg-accent/25 transition-all duration-700" />
-                        <div className="relative h-full w-full bg-surface/40 backdrop-blur-xl rounded-[2.5rem] border border-white/5 overflow-hidden flex items-center justify-center shadow-2xl">
-                            <span className="text-foreground-muted font-black tracking-widest uppercase text-[10px] opacity-30 group-hover:opacity-50 transition-opacity px-4 text-center">Visual Storyteller</span>
+                        <div className="absolute inset-0 bg-accent/20 rounded-[2.5rem] blur-3xl group-hover:bg-accent/30 transition-all duration-700" />
+                        <div className="relative h-full w-full bg-surface/40 backdrop-blur-xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl">
+                            <img
+                                src="/images/profile.jpg"
+                                alt="Tonmoy Hasan Jihan"
+                                className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                            />
                         </div>
                     </motion.div>
 
