@@ -1,143 +1,105 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "./ui/Button";
 
-export default function Hero() {
-    const [typedText, setTypedText] = useState("");
-    const fullText = "Crafting Stories That Resonate.";
+const navItems = [
+    { label: "Home", href: "#hero" },
+    { label: "About", href: "#about" },
+    { label: "Portfolio", href: "#portfolio" },
+    { label: "Experience", href: "#experience" },
+    { label: "Process", href: "#process" },
+    { label: "Contact", href: "#contact" },
+];
+
+export default function Header() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
-        let i = 0;
-        const interval = setInterval(() => {
-            setTypedText(fullText.slice(0, i));
-            i++;
-            if (i > fullText.length) {
-                clearInterval(interval);
-            }
-        }, 80); // Faster, smoother typing
-        return () => clearInterval(interval);
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
-        <section
-            id="hero"
-            className="relative min-h-[90vh] md:min-h-screen w-full flex items-center justify-center overflow-hidden bg-background"
+        <header
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+                ? "bg-background/80 backdrop-blur-xl py-3 border-b border-white/10 shadow-2xl shadow-black/40"
+                : "bg-transparent py-5"
+                }`}
         >
-            {/* 3D Modern Visuals - Animated Blurred Spheres */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <motion.div
-                    animate={{
-                        x: [0, 100, 0],
-                        y: [0, 50, 0],
-                        scale: [1, 1.1, 1]
-                    }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-[10%] left-[10%] w-[30vw] h-[30vw] rounded-full bg-accent/10 blur-[120px]"
-                />
-                <motion.div
-                    animate={{
-                        x: [0, -80, 0],
-                        y: [0, 120, 0],
-                        scale: [1, 1.2, 1]
-                    }}
-                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                    className="absolute bottom-[20%] right-[10%] w-[25vw] h-[25vw] rounded-full bg-accent/5 blur-[100px]"
-                />
-
-                {/* Floating "Glass" Spheres (3D Feel) */}
-                <motion.div
-                    initial={{ y: 0 }}
-                    animate={{ y: [-20, 20, -20] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-[20%] right-[15%] w-32 h-32 rounded-full glass border-white/10 hidden md:block opacity-40 shadow-[0_0_40px_rgba(6,182,212,0.1)]"
-                />
-                <motion.div
-                    initial={{ y: 0 }}
-                    animate={{ y: [30, -30, 30] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute bottom-[30%] left-[20%] w-20 h-20 rounded-full glass border-white/10 hidden md:block opacity-30 shadow-[0_0_30px_rgba(6,182,212,0.1)]"
-                />
-            </div>
-
-            {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.02)_1px,transparent_1px)] bg-[size:100px_100px] z-0 opacity-40" />
-
-            {/* Main Content Container */}
-            <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 sm:px-8 md:px-12 py-24 md:py-32">
-                <div className="text-center md:text-left space-y-16 md:space-y-24 flex flex-col items-center md:items-start">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                        className="flex flex-col items-center md:items-start text-center md:text-left w-full"
-                    >
-                        <h1 className="font-extrabold leading-[1] tracking-tighter mb-10 md:mb-12 min-h-[1.1em] text-4xl sm:text-6xl md:text-[clamp(3.5rem,7.5vw,9rem)] whitespace-normal md:whitespace-nowrap drop-shadow-[0_0_60px_rgba(6,182,212,0.5)]">
-                            <span className="bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent">
-                                {typedText}
-                            </span>
-                            <motion.span
-                                animate={{ opacity: [0, 1, 0] }}
-                                transition={{ duration: 0.8, repeat: Infinity }}
-                                className="inline-block w-2.5 h-[0.7em] bg-accent ml-2 align-middle shadow-[0_0_35px_rgba(6,182,212,1)]"
-                            />
-                        </h1>
-                        <motion.span
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 1.5 }}
-                            className="text-accent font-black tracking-[0.4em] uppercase text-xs sm:text-base px-10 py-4 glass rounded-full border-accent/40 shadow-[0_0_50px_rgba(6,182,212,0.3)]"
-                        >
-                            Premium Video Editor
-                        </motion.span>
-                    </motion.div>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 1.8 }}
-                        className="text-lg md:text-3xl text-foreground-muted max-w-5xl font-medium leading-[1.4] drop-shadow-md"
-                    >
-                        I transform raw footage into premium cinematic experiences for brands, creators, and agencies worldwide.
-                    </motion.p>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 2 }}
-                        className="flex flex-wrap gap-10 justify-center md:justify-start items-center w-full"
-                    >
-                        <Button size="lg" className="rounded-2xl px-16 h-20 text-xl group shadow-[0_0_80px_rgba(6,182,212,0.6)] hover:shadow-[0_0_100px_rgba(6,182,212,0.8)] transition-all duration-500 scale-105 hover:scale-110">
-                            <a href="#portfolio" className="flex items-center gap-2">
-                                Explore Portfolio
-                            </a>
-                        </Button>
-                        <Button size="lg" variant="secondary" className="rounded-2xl px-16 h-20 text-xl glass border-white/20 hover:bg-white/5 shadow-2xl hover:scale-105 transition-transform">
-                            <a href="#contact">Start a Project</a>
-                        </Button>
-                    </motion.div>
-                </div>
-            </div>
-
-            {/* Scroll indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.6 }}
-                transition={{ duration: 1, delay: 3 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block z-20"
-            >
-                <a href="#about" className="flex flex-col items-center gap-2 text-foreground-muted hover:text-accent transition-colors duration-500">
-                    <span className="text-[10px] uppercase font-black tracking-widest">Discover More</span>
-                    <motion.div
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                        <ChevronDown size={20} className="text-accent" />
-                    </motion.div>
+            <nav className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 flex items-center justify-between">
+                {/* Logo */}
+                <a href="#hero" className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground group">
+                    <span className="text-accent group-hover:text-accent-hover transition-colors">Tonmoy</span> Jihan
                 </a>
-            </motion.div>
-        </section>
+
+                {/* Desktop Navigation */}
+                <ul className="hidden md:flex items-center gap-10">
+                    {navItems.map((item) => (
+                        <li key={item.href}>
+                            <a
+                                href={item.href}
+                                className="text-foreground-muted hover:text-foreground transition-all duration-300 text-sm font-semibold tracking-wide uppercase"
+                            >
+                                {item.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* CTA Button */}
+                <div className="hidden md:block">
+                    <Button size="sm" className="rounded-full px-6">
+                        <a href="#contact">Contact</a>
+                    </Button>
+                </div>
+
+                {/* Mobile Menu Toggle */}
+                <button
+                    className="md:hidden text-foreground p-2 hover:bg-surface rounded-lg transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </nav>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden bg-surface/95 backdrop-blur-xl border-b border-border"
+                    >
+                        <ul className="px-4 sm:px-6 py-6 space-y-4">
+                            {navItems.map((item) => (
+                                <li key={item.href}>
+                                    <a
+                                        href={item.href}
+                                        className="block text-foreground-muted hover:text-accent transition-colors py-2 text-base font-medium"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))}
+                            <li className="pt-4 border-t border-border">
+                                <Button className="w-full" size="md">
+                                    <a href="#contact" className="block w-full">Let&apos;s Talk</a>
+                                </Button>
+                            </li>
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </header>
     );
 }
